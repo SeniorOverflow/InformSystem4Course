@@ -37,7 +37,7 @@ jobs:
         make package
         rm -rf out/_CPack_Packages
     - name: archive results
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v3
       with:
         name: packages
         path: build/out
