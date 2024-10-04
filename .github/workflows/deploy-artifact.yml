@@ -1,0 +1,51 @@
+name: Deploy artifact
+
+# Store an artifact in GitHub Packages on every merge to develop branch
+
+on:
+  push:
+    branches:
+      - develop
+    tags:
+      - latest
+
+jobs:
+  deploy_last_artifact:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Set up CMake
+        uses: actions/setup-cmake@v3
+
+      - name: Build the project
+        run: |
+          cmake -B build -S .
+          cmake --build build --config Release
+
+      - name: Create the GitHub Package
+        uses: actions/upload-artifact@v3
+        with:
+          name: cpp-artifact
+          path: ./build # Replace with the path to your built artifacts
+          if: steps.build.outcome == 'success' # Only create the artifact if the build succeeds
+
+
+      - name: Publish to GitHub Packages
+        uses: actions/create-release@v1
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: ${{ github.ref }}
+          body: >-
+            Automatically generated release for ${{ github.ref }}
+
+          files: |
+            my-cpp-artifact
+
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
