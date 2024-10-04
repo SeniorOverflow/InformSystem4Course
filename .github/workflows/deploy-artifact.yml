@@ -10,29 +10,43 @@ on:
       - latest
 
 jobs:
-  deploy_last_artifact:
+  build:
+
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      packages: write
 
     steps:
-      - name: Checkout
-        uses: actions/checkout@v3
+    - uses: actions/checkout@v1
+    - name: prepare
+      run: |
+        mkdir -p build
+        cd build
+        cmake ..
+        make update -j
+    - name: build
+      run: |
+        cd build
+        make -j
+        make install
+    - name: check
+      run: |
+        cd build
+        make check -j
+    - name: package
+      run: |
+        cd build
+        make package
+        rm -rf out/_CPack_Packages
+    - name: archive results
+      uses: actions/upload-artifact@v1
+      with:
+        name: packages
+        path: build/out
 
-      - name: Set up CMake
-        uses: actions/setup-cmake@v3
 
-      - name: Build the project
-        run: |
-          cmake -B build -S .
-          cmake --build build --config Release
-
-
-      - name: Publish to GitHub Packages
-        uses: actions/create-release@v1
-        with:
-          tag_name: ${{ github.ref }}
-          release_name: ${{ github.ref }}
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    - name: Publish to GitHub Packages
+      uses: actions/create-release@v1
+      with:
+        tag_name: ${{ github.ref }}
+        release_name: ${{ github.ref }}
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
