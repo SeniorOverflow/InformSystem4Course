@@ -31,7 +31,7 @@ jobs:
       - name: Create the GitHub Package
         uses: actions/upload-artifact@v3
         with:
-          name: my-cpp-artifact
+          name: cpp-artifact
           path: ./build # Replace with the path to your built artifacts
           if: steps.build.outcome == 'success' # Only create the artifact if the build succeeds
 
