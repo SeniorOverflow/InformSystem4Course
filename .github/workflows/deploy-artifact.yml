@@ -1,6 +1,6 @@
 name: CMake Build Matrix
 
-on: [push, pull_request]
+on: [develop, pull_request]
 
 env:
   CMAKE_VERSION: "3.29.6"
@@ -18,16 +18,6 @@ jobs:
             name: "Windows Latest MinGW", artifact: "Windows-MinGW",
             os: windows-latest,
             cc: "gcc", cxx: "g++"
-          }
-        - {
-            name: "Ubuntu Latest GCC", artifact: "Linux",
-            os: ubuntu-latest,
-            cc: "gcc", cxx: "g++"
-          }
-        - {
-            name: "macOS Latest Clang", artifact: "macOS",
-            os: macos-latest,
-            cc: "clang", cxx: "clang++"
           }
 
     steps:
@@ -52,10 +42,6 @@ jobs:
     
     - name: Install (optional)
       run: cmake --install build --prefix instdir
-    
-    - name: Create Archive
-      run: |
-        tar -czvf ${{ matrix.config.artifact }}-${{ github.run_id }}.tar.gz build
 
     - name: Upload Artifact
       uses: actions/upload-artifact@v3
