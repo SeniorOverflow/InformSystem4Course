@@ -1,52 +1,72 @@
-name: Deploy artifact
+name: CMake Build Matrix
 
-# Store an artifact in GitHub Packages on every merge to develop branch
+on: [push, pull_request]
 
-on:
-  push:
-    branches:
-      - develop
-    tags:
-      - latest
+env:
+  CMAKE_VERSION: "3.29.6"
+  BUILD_TYPE: Release
 
 jobs:
   build:
-
-    runs-on: ubuntu-latest
+    name: ${{ matrix.config.name }}
+    runs-on: ${{ matrix.config.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        config:
+        - {
+            name: "Windows Latest MSVC", artifact: "Windows-MSVC",
+            os: windows-latest,
+            cc: "cl", cxx: "cl",
+            environment_script: "C:/Program Files/Microsoft Visual Studio/2022/Enterprise/VC/Auxiliary/Build/vcvars64.bat"
+          }
+        - {
+            name: "Windows Latest MinGW", artifact: "Windows-MinGW",
+            os: windows-latest,
+            cc: "gcc", cxx: "g++"
+          }
+        - {
+            name: "Ubuntu Latest GCC", artifact: "Linux",
+            os: ubuntu-latest,
+            cc: "gcc", cxx: "g++"
+          }
+        - {
+            name: "macOS Latest Clang", artifact: "macOS",
+            os: macos-latest,
+            cc: "clang", cxx: "clang++"
+          }
 
     steps:
-    - uses: actions/checkout@v1
-    - name: prepare
+    - uses: actions/checkout@v4
+    - name: Set up CMake
+      uses: actions/setup-cmake@v4
+      with:
+        cmake-version: ${{ env.CMAKE_VERSION }}
+        cmake-toolchain-file: ${{ matrix.config.environment_script }}
+    - name: Configure Project
       run: |
-        mkdir -p build
-        cd build
-        cmake ..
-        make update -j
-    - name: build
+        cmake \
+          -S . \
+          -B build \
+          -DCMAKE_BUILD_TYPE=${{ env.BUILD_TYPE }} \
+          -G "Ninja"  # or -G "Unix Makefiles" for compatibility
+        
+    - name: Build Project
+      run: cmake --build build --config ${{ env.BUILD_TYPE }}
+
+
+    - name: Run Tests (if any)
+      run: ctest --output-on-failure
+    
+    - name: Install (optional)
+      run: cmake --install build --prefix instdir
+    
+    - name: Create Archive
       run: |
-        cd build
-        make -j
-        make install
-    - name: check
-      run: |
-        cd build
-        make check -j
-    - name: package
-      run: |
-        cd build
-        make package
-        rm -rf out/_CPack_Packages
-    - name: archive results
+        tar -czvf ${{ matrix.config.artifact }}-${{ github.run_id }}.tar.gz build
+
+    - name: Upload Artifact
       uses: actions/upload-artifact@v3
       with:
-        name: packages
-        path: build/out
-
-
-    - name: Publish to GitHub Packages
-      uses: actions/create-release@v1
-      with:
-        tag_name: ${{ github.ref }}
-        release_name: ${{ github.ref }}
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        name: ${{ matrix.config.artifact }}-${{ github.run_id }}.tar.gz
+        path: ${{ matrix.config.artifact }}-${{ github.run_id }}.tar.gz
