@@ -27,16 +27,16 @@ jobs:
             os: windows-latest,
             cc: "gcc", cxx: "g++"
           }
-        - {
-            name: "Ubuntu Latest GCC", artifact: "Linux",
-            os: ubuntu-latest,
-            cc: "gcc", cxx: "g++"
-          }
-        - {
-            name: "macOS Latest Clang", artifact: "macOS",
-            os: macos-latest,
-            cc: "clang", cxx: "clang++"
-          }
+        # - {
+        #     name: "Ubuntu Latest GCC", artifact: "Linux",
+        #     os: ubuntu-latest,
+        #     cc: "gcc", cxx: "g++"
+        #   }
+        # - {
+        #     name: "macOS Latest Clang", artifact: "macOS",
+        #     os: macos-latest,
+        #     cc: "clang", cxx: "clang++"
+        #   }
 
     steps:
     - uses: actions/checkout@v4
@@ -125,7 +125,6 @@ jobs:
     - name: Build
       shell: cmake -P {0}
       run: |
-        set(ENV{NINJA_STATUS} "[%f/%t %o/sec] ")
 
         if ("${{ runner.os }}" STREQUAL "Windows" AND NOT "x${{ matrix.config.environment_script }}" STREQUAL "x")
           file(STRINGS environment_script_output.txt output_lines)
