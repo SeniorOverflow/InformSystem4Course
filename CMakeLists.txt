@@ -3,12 +3,22 @@ project(IS_System)
 
 set(CMAKE_CXX_STANDARD 20)
 
+
+add_subdirectory(Lab2Core)
+add_subdirectory(Lab3Core)
+add_subdirectory(Lab5Core)
+
 add_subdirectory(MathModel)
 add_subdirectory(ConsoleInterface)
+
+
 
 add_executable(${PROJECT_NAME} main.cpp )
 
 target_link_libraries( ${PROJECT_NAME}
+        Lab2CoreLib
+        Lab3CoreLib
+        Lab5CoreLib
        ConsoleInterfaceLib
         MathModelLib
 )
