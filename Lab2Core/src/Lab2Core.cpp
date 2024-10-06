@@ -1,5 +1,6 @@
 #include "Lab2Core.h"
 
+namespace lab2_core {
 
 Lab2Core::Lab2Core(std::vector<std::array<int, 2> > errorsData)
 {
@@ -26,9 +27,9 @@ void Lab2Core::findMidValueTime()
 
 }
 
-Lab2ResultData Lab2Core::result()
+ResultData Lab2Core::result()
 {
-    Lab2ResultData result;
+    ResultData result;
     result.coefficientK  = coefficientK_;
     result.coefficientB  = coefficientB_;
     result.timeToEndTesting  = timeToEndTesting_;
@@ -40,4 +41,5 @@ Lab2ResultData Lab2Core::result()
 Lab2Core::~Lab2Core()
 {
 
+}
 }
