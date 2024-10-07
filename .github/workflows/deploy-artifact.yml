@@ -95,18 +95,17 @@ jobs:
     - name: Install Qt (Windows)
       if: runner.os == 'Windows'
       run: |
-        # Define the Qt version you want to install
-        $qtVersion = "5.15.2"
-        $qtInstallerUrl = "https://download.qt.io/official_releases/qt/${qtVersion}/5.15.2/qt-opensource-windows-x86-5.15.2.exe"
+        # Download the Qt online installer
+        $qtInstallerUrl = "https://download.qt.io/official_releases/online_installers/qt-unified-windows-x86-4.6.1-online.exe"
 
         # Download the installer
         Invoke-WebRequest -Uri $qtInstallerUrl -OutFile qt-installer.exe
 
-        # Run the installer silently (you might need to customize installation path and options)
+        # Run the installer silently (customize with the options you need)
         Start-Process -FilePath .\qt-installer.exe -ArgumentList "--silent --platform minimal"
 
-        # Verify installation and add to PATH (assumes default install location)
-        $qtPath = "C:\Qt\${qtVersion}\msvc2019_64\bin"
+        # Define the path to Qt binaries (adjust version if necessary)
+        $qtPath = "C:\Qt\5.15.2\msvc2019_64\bin"
         [System.Environment]::SetEnvironmentVariable("Path", [System.Environment]::GetEnvironmentVariable("Path", "Machine") + ";$qtPath", "Machine")
 
     - name: Configure
