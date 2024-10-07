@@ -7,42 +7,34 @@ namespace lab5_core {
 
 struct Params
 {
-    int countFailures {0};
-    int countExperiments {0};
-    std::array<double, 2> midWakeUpTimeInterval {0.00, 0.00};
-    double permissWakeUpTime{0.0};
-    std::array<double, 2> transformTimeInterval {0.00, 0.00};
-    double permissTransformTime{0.0};
-    double baseCriterionSafe {0.0};
+    int countFailures {7};
+    int countExperiments {1300};
+    std::array<double, 2> midWakeUpTimeInterval {0.60,1.00};
+    double permissWakeUpTime{0.65};
+    std::array<double, 2> transformTimeInterval {10.00,16.00};
+    double permissTransformTime{10.0};
+    double baseCriterionSafe {0.9};
 };
 
 struct ResultData
 {
-    std::vector<double> estimateValues;
-    std::vector<double> metrics;
-    std::vector<double> metricsFormula3;
-    std::vector<double> absoluteCriterions;
-    std::vector<double> relativeCriterions;
-
-    double phactorStability;
+    std::array<std::vector<double>,5>estimateValues;
+    std::array<double,5> metrics{};
+    std::array<double,2> absoluteCriterions{};
+    std::array<double,2> relativeCriterions{};
+    double phactorStability = {0};
 };
 
 
 class Lab5Core final
 {
-
 private:
-
-
-
 public:
     Lab5Core();
     ~Lab5Core();
 
 private:
-
 };
-
 }
 
 //#include <iostream>

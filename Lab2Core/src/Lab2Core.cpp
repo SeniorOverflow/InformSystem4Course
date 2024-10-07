@@ -6,13 +6,8 @@
 
 namespace lab2_core {
 
-Lab2Core::Lab2Core(std::vector<std::array<int, 2> > errorsData)
+Lab2Core::Lab2Core()
 {
-    errorsData_ = std::move(errorsData);
-    findCoefficientB();
-    findCoefficientK();
-    findMidValueTime();
-    findTimeToEndTesting();
 }
 
 double Lab2Core::Sum_Xi(const std::vector<double>& X) {
@@ -151,6 +146,15 @@ double Lab2Core::calculateTk(double B, double K, const std::vector<double>& X) {
         sum += 1.0 / (B - i + 1);
     }
     return Sum_Xi(X) + (1.0 / K) * sum;
+}
+
+void Lab2Core::initData(std::vector<std::array<int, 2>> errorsData)
+{
+    errorsData_ = std::move(errorsData);
+    findCoefficientB();
+    findCoefficientK();
+    findMidValueTime();
+    findTimeToEndTesting();
 }
 
 ResultData Lab2Core::result()

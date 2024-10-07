@@ -8,12 +8,15 @@ namespace lab3_core {
 //{
 //    params_ = params;
 
-Lab3Core::Lab3Core(const Parameters &parameters) : optimalNumberOfVariables_{8}, coeffAssembler_(3.0/8.0),
-numberElementaryDifferences_{3000}, workingHours_(7)
+Lab3Core::Lab3Core()
 {
-    parameters_ = parameters;
-    minNumberOperands_ = parameters.goals * parameters.measurements *
-    parameters.trackedParameters + parameters.goals * parameters.outputParameters;
+}
+
+void Lab3Core::initData(const Params &params)
+{
+    parameters_ = params;
+    minNumberOperands_ = parameters_.goals * parameters_.measurements *
+    parameters_.trackedParameters + parameters_.goals * parameters_.outputParameters;
 
     if (minNumberOperands_ / optimalNumberOfVariables_ > optimalNumberOfVariables_)
     {

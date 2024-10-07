@@ -34,7 +34,12 @@ private:
 
 
 public:
-    Lab2Core(std::vector<std::array<int, 2>> errorsData);
+    Lab2Core();
+
+    void initData(std::vector<std::array<int, 2>> errorsData);
+
+
+
     ResultData result();
     ~Lab2Core();
 

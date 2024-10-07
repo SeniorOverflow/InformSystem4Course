@@ -1,8 +1,7 @@
 #pragma once
 #include <vector>
 #include <array>
-#include "Parameters.h"
-#include "ResultData.h"
+
 
 
 namespace lab3_core {
@@ -16,7 +15,7 @@ struct Params
     double initialRating {};
     double levelLang {};
     int numberOfPrograms {};
-    std::vector<int> volumsOfWritePr;
+    std::vector<int> volumsOfWriienPr;
     std::vector<int> numOfErrors;
     int necessaryVolume {};
 };
@@ -53,18 +52,13 @@ struct ResultData
 
 class Lab3Core final
 {
-
 private:
-  
-    
-
 public:
 
-//   Lab3Core(const Params & params);
-
-    Lab3Core(const Parameters &);
-
+    Lab3Core();
+    void initData(const Params & params);
     ~Lab3Core();
+
     //Потенциальный объём программы
     double PotentialVolumeProgram();
     //Потенциальное количество ошибок (задание 1)
@@ -100,9 +94,7 @@ public:
     void SetnumberProgrammersInTeam(int);
 
 private:
-
-    Params params_;
-    Parameters parameters_;
+    Params parameters_;
     //Минимальное число операндов
     int minNumberOperands_;
     //Количество модулей программы
@@ -112,13 +104,13 @@ private:
     //Число программистов в команде
     int numberProgrammersInTeam_;
     //оптимальное число переменных для одного модуля
-    const int optimalNumberOfVariables_;
+    const int optimalNumberOfVariables_ {8};
     //коэффициент перерасчёта, для перевода в количество команд ассемблера
-    const double coeffAssembler_;
+    const double coeffAssembler_{3.00 / optimalNumberOfVariables_};
     //число элементарных различений
-    const int numberElementaryDifferences_;
+    const int numberElementaryDifferences_{3000};
     //рабочих часов в день
-    const int workingHours_;
+    const int workingHours_{7};
     //оптимальная длина одного модуля
     double lengthModule_;
     //длина словаря

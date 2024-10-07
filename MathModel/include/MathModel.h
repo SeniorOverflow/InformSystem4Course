@@ -18,18 +18,19 @@ private:
 public:
       explicit MathModel();
 
-//      std::function<> * lab2_InitData();
-//      std::function<> * lab2_ResultFunc();
+      std::function<void (std::vector<std::array<int, 2>> &)> * lab2_InitData();
+      std::function<lab2_core::ResultData()> * lab2_ResultFunc();
 
-//      std::function<> * lab3_InitData();
-//      std::function<> * lab3_ResultFunc();
+      std::function<void (const lab3_core::Params &)> * lab3_InitData();
+      std::function<lab3_core::ResultData()> * lab3_ResultFunc();
 
-//      std::function<> * lab3_InitData();
-//      std::function<> * lab3_ResultFunc();
+      std::function<void (const lab5_core::Params &)> * lab5_InitData();
+      std::function<lab5_core::ResultData()> * lab5_ResultFunc();
+      ~MathModel();
 
 private:
     std::unique_ptr<std::function<void (std::vector<std::array<int, 2>> &)>> lab2_setData {nullptr};
-    std::unique_ptr<std::function<lab2_core::ResultData()>> lab2_getData();
+    std::unique_ptr<std::function<lab2_core::ResultData()>> lab2_getData{nullptr};
 
     std::unique_ptr<std::function<void (const lab3_core::Params &)>> lab3_setData {nullptr};
     std::unique_ptr<std::function<lab3_core::ResultData()>> lab3_getData {nullptr};
