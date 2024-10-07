@@ -104,35 +104,34 @@ jobs:
 
     - name: Configure
       shell: powershell
-     run: |
-      $Env:CC = '${{ matrix.config.cc }}'
-      $Env:CXX = '${{ matrix.config.cxx }}'
+      run: |
+        $Env:CC = '${{ matrix.config.cc }}'
+        $Env:CXX = '${{ matrix.config.cxx }}'
 
-        if ("${{ runner.os }}" -eq "Windows" -and -not [string]::IsNullOrEmpty("${{ matrix.config.environment_script }}")) {
-          $Env:CMAKE_PREFIX_PATH = "C:/Qt/${qtVersion}/msvc2019_64/lib/cmake"
+          if ("${{ runner.os }}" -eq "Windows" -and -not [string]::IsNullOrEmpty("${{ matrix.config.environment_script }}")) {
+            $Env:CMAKE_PREFIX_PATH = "C:/Qt/${qtVersion}/msvc2019_64/lib/cmake"
         
-        & "${{ matrix.config.environment_script }}" | Out-File environment_script_output.txt
+            & "${{ matrix.config.environment_script }}" | Out-File environment_script_output.txt
         
-        $output_lines = Get-Content environment_script_output.txt
-        foreach ($line in $output_lines) {
-            if ($line -match "^([a-zA-Z0-9_-]+)=(.*)$") {
+          $output_lines = Get-Content environment_script_output.txt
+          foreach ($line in $output_lines) {
+              if ($line -match "^([a-zA-Z0-9_-]+)=(.*)$") {
                 $Env[$matches[1]] = $matches[2]
-            }
+              }
+          }
         }
-      }
-      $path_separator = ":"
-      if ("${{ runner.os }}" -eq "Windows") {
-        $path_separator = ";"
-      }
-      $Env:PATH = "$Env:GITHUB_WORKSPACE${path_separator}$Env:PATH"
-      
-      cmake -S . -B build -D CMAKE_BUILD_TYPE=$Env:BUILD_TYPE `
+        $path_separator = ":"
+        if ("${{ runner.os }}" -eq "Windows") {
+          $path_separator = ";"
+        }
+        $Env:PATH = "$Env:GITHUB_WORKSPACE${path_separator}$Env:PATH"
+          cmake -S . -B build -D CMAKE_BUILD_TYPE=$Env:BUILD_TYPE `
            -D CMAKE_C_COMPILER_LAUNCHER=ccache `
            -D CMAKE_CXX_COMPILER_LAUNCHER=ccache
 
-      if ($LASTEXITCODE -ne 0) {
-        throw "Bad exit status"
-      }
+        if ($LASTEXITCODE -ne 0) {
+          throw "Bad exit status"
+        }
 
     - name: Build
       shell: cmake -P {0}
