@@ -33,7 +33,7 @@ Lab3Core::~Lab3Core()
 
 }
 
-}
+
 
 
 double Lab3Core::PotentialVolumeProgram() {
@@ -159,4 +159,4 @@ ResultData Lab3Core::GetDataResult() {
     result.countPotencialErrors = countErrors;
     return result;
 }
-
+}

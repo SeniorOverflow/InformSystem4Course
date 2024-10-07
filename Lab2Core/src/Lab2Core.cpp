@@ -155,16 +155,11 @@ double Lab2Core::calculateTk(double B, double K, const std::vector<double>& X) {
 
 ResultData Lab2Core::result()
 {
-
-//    ResultData result;
-//    result.coefficientK  = coefficientK_;
-    Lab2ResultData result;
-
+    ResultData result;
     result.coefficientB  = coefficientB_;
     result.coefficientK  = coefficientK_;
     result.timeToEndTesting  = timeToEndTesting_;
     result.midValueTime  = midValueTime_;
-
     return result;
 }
 

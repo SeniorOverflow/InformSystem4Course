@@ -28,22 +28,25 @@ enum class  ProgmamLevel : uint8_t
     Simple = 0x01
 };
 
+
 struct ResultData
 {
+    int countPotencialErrors_task1;
     int countProgramModules;
     ProgmamLevel programLevel;
-    int countLevels;
 
     double lengthProgram {};
     double voulmeProgram {};
 
     double countAssemblerCommand {};
     double calendarTimeProgramming {};
+    double countPotencialErrors_task2;
     double startStabilityProgram {};
 
     std::array<double, 3> currentRaitingProgrammer {};
     std::array<double, 3> countPotencialErrors {};
 };
+
 
 
 
@@ -120,7 +123,5 @@ private:
     double lengthModule_;
     //длина словаря
     double lenghtDictionary_;
-
-
 };
 }
