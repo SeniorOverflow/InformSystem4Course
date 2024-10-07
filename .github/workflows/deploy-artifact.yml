@@ -94,13 +94,13 @@ jobs:
 
     - name: Install Qt (Windows)
       uses: jurplel/install-qt-action@v2
-        with:
-          version: '5.12.11'
-          host: 'windows'
-          target: 'desktop'
-          arch: 'win64_mingw73'
-          dir: '${{github.workspace}}/qt/'
-          install-deps: 'true'
+      with:
+        version: '5.12.11'
+        host: 'windows'
+        target: 'desktop'
+        arch: 'win64_mingw73'
+        dir: '${{ github.workspace }}/qt/'
+        install-deps: 'true'
 
     - name: Configure
       shell: cmake -P {0}
