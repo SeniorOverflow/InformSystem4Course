@@ -53,10 +53,10 @@ private:
 
 
 public:
-    Lab3Core();
+    Lab3Core(const Params & params);
     ~Lab3Core();
 
 private:
-
+   Params params_;
 };
 }
