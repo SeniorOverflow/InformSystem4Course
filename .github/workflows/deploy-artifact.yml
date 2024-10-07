@@ -93,20 +93,14 @@ jobs:
         endif
 
     - name: Install Qt (Windows)
-      if: runner.os == 'Windows'
-      run: |
-        # Download the Qt online installer
-        $qtInstallerUrl = "https://download.qt.io/official_releases/online_installers/qt-unified-windows-x86-4.6.1-online.exe"
-
-        # Download the installer
-        Invoke-WebRequest -Uri $qtInstallerUrl -OutFile qt-installer.exe
-
-        # Run the installer silently (customize with the options you need)
-        Start-Process -FilePath .\qt-installer.exe -ArgumentList "--silent --platform minimal"
-
-        # Define the path to Qt binaries (adjust version if necessary)
-        $qtPath = "C:\Qt\5.15.2\msvc2019_64\bin"
-        [System.Environment]::SetEnvironmentVariable("Path", [System.Environment]::GetEnvironmentVariable("Path", "Machine") + ";$qtPath", "Machine")
+      uses: jurplel/install-qt-action@v2
+        with:
+          version: '5.12.11'
+          host: 'windows'
+          target: 'desktop'
+          arch: 'win64_mingw73'
+          dir: '${{github.workspace}}/qt/'
+          install-deps: 'true'
 
     - name: Configure
       shell: cmake -P {0}
