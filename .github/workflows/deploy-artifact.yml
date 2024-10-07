@@ -103,15 +103,10 @@ jobs:
         install-deps: 'true'
 
     - name: Configure
-      shell: bash
+      shell: powershell
       run: |
-        if [ "${{ runner.os }}" == "Windows" ]; then
-            set CC=${{ matrix.config.cc }}
-            set CXX=${{ matrix.config.cxx }}
-        else
-            export CC=${{ matrix.config.cc }}
-            export CXX=${{ matrix.config.cxx }}
-        fi
+        $Env:CC = '${{ matrix.config.cc }}'
+        $Env:CXX = '${{ matrix.config.cxx }}'
 
         if ("${{ runner.os }}" STREQUAL "Windows" AND NOT "x${{ matrix.config.environment_script }}" STREQUAL "x")
           set(ENV{CMAKE_PREFIX_PATH} "C:/Qt/${qtVersion}/msvc2019_64/lib/cmake")
