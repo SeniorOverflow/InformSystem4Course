@@ -1,27 +1,25 @@
-#include "../include/Lab3Core.h"
-#include <math.h>
+#include "Lab3Core.h"
+#include <cmath>
+#include <iostream>
 
 
-Lab3Core::Lab3Core(Parameters *parameters)
+Lab3Core::Lab3Core(const Parameters &parameters) : optimalNumberOfVariables_{8}, coeffAssembler_(3.0/8.0),
+numberElementaryDifferences_{3000}, workingHours_(7)
 {
-    goals = parameters->goals;
-    measurements = parameters->measurements;
-    trackedParameters = parameters->trackedParameters;
-    outputParameters = parameters->outputParameters;
-    initialRating = parameters->initialRating;
-    levelLang = parameters->levelLang;
-    numberOfPrograms = parameters->numberOfPrograms;
-    volumsOfWriienPr = parameters->volumsOfWriienPr;
-    numOfErrors = parameters->numOfErrors;
-    necessaryVolume = parameters->necessaryVolume;
-    minNumberOperands = goals*measurements*trackedParameters+goals*outputParameters;
-    if (minNumberOperands/8 > 8)
+    parameters_ = parameters;
+    minNumberOperands_ = parameters.goals * parameters.measurements *
+    parameters.trackedParameters + parameters.goals * parameters.outputParameters;
+
+    if (minNumberOperands_ / optimalNumberOfVariables_ > optimalNumberOfVariables_)
     {
-        numberOfSoftModules = minNumberOperands/8+minNumberOperands/64;
-    } else numberOfSoftModules = minNumberOperands/8;
-    debuggetFunPerDay = 10;
-    numberProgrammersInTeam = 5;
-    
+        numberOfSoftModules_ = minNumberOperands_/ optimalNumberOfVariables_ +
+        minNumberOperands_ / pow(optimalNumberOfVariables_, 2);
+    } else numberOfSoftModules_ = minNumberOperands_ / optimalNumberOfVariables_;
+
+    debuggetFunPerDay_ = 10;
+    numberProgrammersInTeam_ = 5;
+    lenghtDictionary_ = optimalNumberOfVariables_ * log2(optimalNumberOfVariables_);
+    lengthModule_ = 2* lenghtDictionary_ * log2(lenghtDictionary_);
 }
 
 Lab3Core::~Lab3Core()
@@ -30,106 +28,125 @@ Lab3Core::~Lab3Core()
 }
 
 double Lab3Core::PotentialVolumeProgram() {
-    return (Lab3Core::minNumberOperands+2)*log2(Lab3Core::minNumberOperands+2);
+    return (Lab3Core::minNumberOperands_+2) * log2(Lab3Core::minNumberOperands_+2);
 }
 
-int Lab3Core::PotentialNumberErrors() {
-    return pow(PotentialVolumeProgram(), 2)/(3000*levelLang);
+double Lab3Core::PotentialNumberErrors() {
+    return pow(PotentialVolumeProgram(), 2) / (numberElementaryDifferences_ * parameters_.levelLang);
 }
 
 int Lab3Core::NumberOfLevels() {
-    if (numberOfSoftModules > 8)
+    if (numberOfSoftModules_ > optimalNumberOfVariables_)
     {
-        return (int) log2(minNumberOperands)/3+1;
+        return static_cast<int> (log2(minNumberOperands_)/3)+1;
     } else return 1;
     
 }
 
 double Lab3Core::ProgramLengths() {
-    return 220*numberOfSoftModules+numberOfSoftModules*log2(numberOfSoftModules);
+    return  lengthModule_ * numberOfSoftModules_ + numberOfSoftModules_ * log2(numberOfSoftModules_);
 }
 
 double Lab3Core::SoftwareVolume() {
-    return 220*numberOfSoftModules*log2(48);
+    return lengthModule_ * numberOfSoftModules_ * log2(2*lenghtDictionary_);
 }
 
-int Lab3Core::NumberOfAssemblerFunc() {
-    return 3*ProgramLengths()/8;
+double Lab3Core::NumberOfAssemblerFunc() {
+    return coeffAssembler_ * ProgramLengths();
 }
 
 double Lab3Core::CalendarProgrammingTime() {
-    return 3*ProgramLengths()/(8*numberProgrammersInTeam*debuggetFunPerDay);
+    return coeffAssembler_ * ProgramLengths() / (numberProgrammersInTeam_ * debuggetFunPerDay_);
 }
 
-int Lab3Core::PotentialNumberErrorsTwo() {
-    return SoftwareVolume()/3000;
+double Lab3Core::PotentialNumberErrorsTwo() {
+    return SoftwareVolume() / numberElementaryDifferences_;
 }
 
 double Lab3Core::TimeToRefuse() {
-    return CalendarProgrammingTime()/(2*log(PotentialNumberErrorsTwo()))*7;
+    return CalendarProgrammingTime() / (2*log(PotentialNumberErrorsTwo())) * workingHours_;
 }
 
-double Lab3Core::Coefficient(double rating, int i) {
-    switch (i)
+double Lab3Core::Coefficient(double rating, int option) {
+    switch (option)
     {
+    case 0:
+        return 1/(parameters_.levelLang + rating);
     case 1:
-        return 1/(levelLang+rating);
+        return 1/(parameters_.levelLang * rating);
     case 2:
-        return 1/(levelLang*rating);
-    case 3:
-        return (1/levelLang+1/rating);
+        return (1/parameters_.levelLang + 1/rating);
     default:
-        return 1/(levelLang+rating);
+        return 1/(parameters_.levelLang + rating);
     }
 }
 
-double Lab3Core::CurrentRating(int numberOfPrograms, int i) {
-    double sumVl = 0, sumErToCof = 0, r = initialRating;
+double Lab3Core::CurrentRating(int option) {
+    double sumVl = 0;
+    double sumErToCof = 0;
+    double rating = parameters_.initialRating;
 
-    for (int j = 0; j < numberOfPrograms; j++)
+    for (int i = 0; i < parameters_.numberOfPrograms; i++)
         {
-            sumVl += volumsOfWriienPr[j];
-            if (numOfErrors[j] != 0)
+            sumVl += parameters_.volumsOfWriienPr[i];
+            if (parameters_.numOfErrors[i] != 0)
             {
-                sumErToCof += numOfErrors[j]/Coefficient(r, i);
+                sumErToCof += parameters_.numOfErrors[i] / Coefficient(rating, option);
             }
-            r = r*abs(1+0.001*(sumVl - sumErToCof));
+            rating = rating * fabs(1+0.001 * (sumVl - sumErToCof));
         }
-        return r;
+        return rating;
 }
 
 double Lab3Core::PotentialNumberErrorsThree(double coeff) {
-    return coeff*necessaryVolume;
+    return coeff * parameters_.necessaryVolume;
+}
+
+void Lab3Core::SetdebuggetFunPerDay(int numDebug) {
+    debuggetFunPerDay_ = numDebug;
+}
+
+void Lab3Core::SetnumberProgrammersInTeam(int numberProgrammers) {
+    numberProgrammersInTeam_ = numberProgrammers;
+}
+
+int Lab3Core::GetdebuggetFunPerDay() {
+    return debuggetFunPerDay_;
+}
+
+int Lab3Core::GetnumberProgrammersInTeam() {
+    return numberProgrammersInTeam_;
 }
 
 int Lab3Core::GetSoftModules() {
-    return numberOfSoftModules;
+    return numberOfSoftModules_;
 }
 
-void Lab3Core::GetDataResult(ResultData *result) {
-    result->countPotencialErrors_task1 = PotentialNumberErrors();
-    result->countProgramModules = GetSoftModules();
+ResultData Lab3Core::GetDataResult() {
+    ResultData result;
+    result.countPotencialErrors_task1 = PotentialNumberErrors();
+    result.countProgramModules = GetSoftModules();
     if (NumberOfLevels() > 1)
     {
-        result->programLevel = ProgmamLevel::MultiLevel;
-    } else result->programLevel = ProgmamLevel::Simple;
+        result.programLevel = ProgmamLevel::MultiLevel;
+    } else result.programLevel = ProgmamLevel::Simple;
     
-    result->lengthProgram = ProgramLengths();
-    result->voulmeProgram = SoftwareVolume();
-    result->countAssemblerCommand = NumberOfAssemblerFunc();
-    result->calendarTimeProgramming = CalendarProgrammingTime();
-    result->countPotencialErrors_task2 = PotentialNumberErrorsTwo();
-    result->startStabilityProgram = TimeToRefuse();
-    double dd, r, z;
+    result.lengthProgram = ProgramLengths();
+    result.voulmeProgram = SoftwareVolume();
+    result.countAssemblerCommand = NumberOfAssemblerFunc();
+    result.calendarTimeProgramming = CalendarProgrammingTime();
+    result.countPotencialErrors_task2 = PotentialNumberErrorsTwo();
+    result.startStabilityProgram = TimeToRefuse();
+    double curRating;
     std::array<double, 3> ratings, countErrors;
-    for (size_t i = 1; i < 4; i++)
+
+    for (size_t i = 0; i < 3; i++)
     {
-        dd = CurrentRating(numberOfPrograms, i);
-        ratings.at(i-1) = dd;
-        r = Coefficient(dd, i);
-        z =PotentialNumberErrorsThree(r);
-        countErrors.at(i-1) = z;
+        curRating = CurrentRating(i);
+        ratings.at(i) = curRating;
+        countErrors.at(i) = PotentialNumberErrorsThree(Coefficient(curRating, i));
     }
-    result->currentRaitingProgrammer = ratings;
-    result->countPotencialErrors = countErrors;
+    result.currentRaitingProgrammer = ratings;
+    result.countPotencialErrors = countErrors;
+    return result;
 }
