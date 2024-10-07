@@ -82,16 +82,6 @@ jobs:
           )
         endif()
 
-    - name: Install Qt (Linux/macOS)
-      if: runner.os != 'Windows'
-      run: |
-        if ("${{ runner.os }}" STREQUAL "Linux")
-          sudo apt-get update
-          sudo apt-get install qt${{ matrix.config.qt_version }}base-dev -y
-        elseif ("${{ runner.os }}" STREQUAL "macOS")
-          brew install qt@${{ matrix.config.qt_version }}
-        endif
-
     - name: Install Qt (Windows)
       uses: jurplel/install-qt-action@v2
       with:
