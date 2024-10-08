@@ -18,7 +18,7 @@ private:
 public:
       explicit MathModel();
 
-      std::function<void (std::vector<std::array<int, 2>> &)> * lab2_InitData();
+      std::function<void (const std::vector<std::array<int, 2>> &)> * lab2_InitData();
       std::function<lab2_core::ResultData()> * lab2_ResultFunc();
 
       std::function<void (const lab3_core::Params &)> * lab3_InitData();
@@ -29,8 +29,8 @@ public:
       ~MathModel();
 
 private:
-    std::unique_ptr<std::function<void (std::vector<std::array<int, 2>> &)>> lab2_setData {nullptr};
-    std::unique_ptr<std::function<lab2_core::ResultData()>> lab2_getData{nullptr};
+    std::unique_ptr<std::function<void (const std::vector<std::array<int, 2>> &)>> lab2_setData_ {nullptr};
+    std::unique_ptr<std::function<lab2_core::ResultData()>> lab2_getData_{nullptr};
 
     std::unique_ptr<std::function<void (const lab3_core::Params &)>> lab3_setData {nullptr};
     std::unique_ptr<std::function<lab3_core::ResultData()>> lab3_getData {nullptr};

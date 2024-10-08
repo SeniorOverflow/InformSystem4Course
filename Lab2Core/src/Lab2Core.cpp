@@ -148,9 +148,9 @@ double Lab2Core::calculateTk(double B, double K, const std::vector<double>& X) {
     return Sum_Xi(X) + (1.0 / K) * sum;
 }
 
-void Lab2Core::initData(std::vector<std::array<int, 2>> errorsData)
+void Lab2Core::initData(const std::vector<std::array<int, 2>> & errorsData)
 {
-    errorsData_ = std::move(errorsData);
+    errorsData_ = errorsData;
     findCoefficientB();
     findCoefficientK();
     findMidValueTime();

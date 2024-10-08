@@ -12,6 +12,17 @@ class MainWindow : public QMainWindow
 {
     Q_OBJECT
 private:
+    void calculateLab2();
+    void getDataFormLab2();
+    void drawResultFromLab2();
+
+    void calculateLab3();
+    void getDataFormLab3();
+    void drawResultFromLab3();
+
+    void calculateLab5();
+    void getDataFromLab5();
+    void drawResultFromLab5();
 
 
 public:
@@ -21,7 +32,7 @@ public:
 private slots:
     void on_pushButton_calculateLab5_clicked();
 
-    void on_pushButton_calulateLab3_clicked();
+    void on_pushButton_calculateLab3_clicked();
 
     void on_pushButton_calculateLab2_clicked();
 

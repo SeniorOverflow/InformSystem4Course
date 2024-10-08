@@ -31,9 +31,14 @@ class Lab5Core final
 private:
 public:
     Lab5Core();
+    void initData(const Params & params);
+    ResultData result();
+
     ~Lab5Core();
 
 private:
+    Params params_;
+    ResultData result_;
 };
 }
 
