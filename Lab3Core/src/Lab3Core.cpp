@@ -2,13 +2,21 @@
 #include <cmath>
 #include <iostream>
 
+namespace lab3_core {
 
-Lab3Core::Lab3Core(const Parameters &parameters) : optimalNumberOfVariables_{8}, coeffAssembler_(3.0/8.0),
-numberElementaryDifferences_{3000}, workingHours_(7)
+//Lab3Core::Lab3Core(const Params &params)
+//{
+//    params_ = params;
+
+Lab3Core::Lab3Core()
 {
-    parameters_ = parameters;
-    minNumberOperands_ = parameters.goals * parameters.measurements *
-    parameters.trackedParameters + parameters.goals * parameters.outputParameters;
+}
+
+void Lab3Core::initData(const Params &params)
+{
+    parameters_ = params;
+    minNumberOperands_ = parameters_.goals * parameters_.measurements *
+    parameters_.trackedParameters + parameters_.goals * parameters_.outputParameters;
 
     if (minNumberOperands_ / optimalNumberOfVariables_ > optimalNumberOfVariables_)
     {
@@ -20,12 +28,16 @@ numberElementaryDifferences_{3000}, workingHours_(7)
     numberProgrammersInTeam_ = 5;
     lenghtDictionary_ = optimalNumberOfVariables_ * log2(optimalNumberOfVariables_);
     lengthModule_ = 2* lenghtDictionary_ * log2(lenghtDictionary_);
+
 }
 
 Lab3Core::~Lab3Core()
 {
 
 }
+
+
+
 
 double Lab3Core::PotentialVolumeProgram() {
     return (Lab3Core::minNumberOperands_+2) * log2(Lab3Core::minNumberOperands_+2);
@@ -149,4 +161,5 @@ ResultData Lab3Core::GetDataResult() {
     result.currentRaitingProgrammer = ratings;
     result.countPotencialErrors = countErrors;
     return result;
+}
 }

@@ -2,7 +2,10 @@ set(LIB_NAME MathModelLib)
 
 
 set(DEPENDENCIES
-        ConsoleInterfaceLib
+    Lab2CoreLib
+    Lab3CoreLib
+    Lab5CoreLib
+    ConsoleInterfaceLib
 )
 
 add_library(${LIB_NAME} STATIC)

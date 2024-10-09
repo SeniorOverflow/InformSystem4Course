@@ -2,8 +2,9 @@
 #include <vector>
 #include <array>
 
+namespace lab2_core {
 
-struct Lab2ResultData
+struct ResultData
 {
     double coefficientB {0.00};
     double coefficientK {0.00};
@@ -33,8 +34,13 @@ private:
 
 
 public:
-    Lab2Core(std::vector<std::array<int, 2>> errorsData);
-    Lab2ResultData result();
+    Lab2Core();
+
+    void initData(const std::vector<std::array<int, 2>>& errorsData);
+
+
+
+    ResultData result();
     ~Lab2Core();
 
 
@@ -47,3 +53,4 @@ private:
     
     std::vector<std::array<int, 2>> errorsData_;
 };
+}

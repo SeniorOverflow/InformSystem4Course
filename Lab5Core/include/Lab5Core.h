@@ -1,24 +1,47 @@
 #pragma once
 #include <vector>
 #include <array>
+#include <random>
 
+namespace lab5_core {
 
+struct Params
+{
+    int countFailures {7};
+    int countExperiments {1300};
+    std::array<double, 2> midWakeUpTimeInterval {0.60,1.00};
+    double permissWakeUpTime{0.65};
+    std::array<double, 2> transformTimeInterval {10.00,16.00};
+    double permissTransformTime{10.0};
+    double baseCriterionSafe {0.9};
+};
+
+struct ResultData
+{
+    std::array<std::vector<double>,5>estimateValues;
+    std::array<double,5> metrics{};
+    std::array<double,2> absoluteCriterions{};
+    std::array<double,2> relativeCriterions{};
+    double phactorStability = {0};
+};
 
 
 class Lab5Core final
 {
-
 private:
-
-
-
 public:
     Lab5Core();
+    void initData(const Params & params);
+    ResultData result();
+
     ~Lab5Core();
 
 private:
-
+    Params params_;
+    ResultData result_;
 };
+}
+
 //#include <iostream>
 //#include <vector>
 //#include <array>
@@ -112,3 +135,4 @@ private:
 //    }
 //    return phactorStability;
 //}
+

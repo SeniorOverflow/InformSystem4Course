@@ -4,14 +4,10 @@
 #include <cmath>
 #include <iomanip>
 
+namespace lab2_core {
 
-Lab2Core::Lab2Core(std::vector<std::array<int, 2> > errorsData)
+Lab2Core::Lab2Core()
 {
-    errorsData_ = std::move(errorsData);
-    findCoefficientB();
-    findCoefficientK();
-    findMidValueTime();
-    findTimeToEndTesting();
 }
 
 double Lab2Core::Sum_Xi(const std::vector<double>& X) {
@@ -152,18 +148,27 @@ double Lab2Core::calculateTk(double B, double K, const std::vector<double>& X) {
     return Sum_Xi(X) + (1.0 / K) * sum;
 }
 
-Lab2ResultData Lab2Core::result()
+void Lab2Core::initData(const std::vector<std::array<int, 2>> & errorsData)
 {
-    Lab2ResultData result;
+    errorsData_ = errorsData;
+    findCoefficientB();
+    findCoefficientK();
+    findMidValueTime();
+    findTimeToEndTesting();
+}
+
+ResultData Lab2Core::result()
+{
+    ResultData result;
     result.coefficientB  = coefficientB_;
     result.coefficientK  = coefficientK_;
     result.timeToEndTesting  = timeToEndTesting_;
     result.midValueTime  = midValueTime_;
-
     return result;
 }
 
 Lab2Core::~Lab2Core()
 {
 
+}
 }

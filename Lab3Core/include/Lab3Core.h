@@ -1,22 +1,64 @@
 #pragma once
 #include <vector>
 #include <array>
-#include "Parameters.h"
-#include "ResultData.h"
+
+
+
+namespace lab3_core {
+
+struct Params
+{
+    int goals {};
+    int measurements {};
+    int trackedParameters {};
+    int outputParameters {};
+    double initialRating {};
+    double levelLang {};
+    int numberOfPrograms {};
+    std::vector<int> volumsOfWriienPr;
+    std::vector<int> numOfErrors;
+    int necessaryVolume {};
+};
+
+
+enum class  ProgmamLevel : uint8_t
+{
+    MultiLevel = 0x00,
+    Simple = 0x01
+};
+
+
+struct ResultData
+{
+    int countPotencialErrors_task1;
+    int countProgramModules;
+    ProgmamLevel programLevel;
+
+    double lengthProgram {};
+    double voulmeProgram {};
+
+    double countAssemblerCommand {};
+    double calendarTimeProgramming {};
+    double countPotencialErrors_task2;
+    double startStabilityProgram {};
+
+    std::array<double, 3> currentRaitingProgrammer {};
+    std::array<double, 3> countPotencialErrors {};
+};
+
 
 
 
 
 class Lab3Core final
 {
-
 private:
-  
-    
-
 public:
-    Lab3Core(const Parameters &);
+
+    Lab3Core();
+    void initData(const Params & params);
     ~Lab3Core();
+
     //Потенциальный объём программы
     double PotentialVolumeProgram();
     //Потенциальное количество ошибок (задание 1)
@@ -52,7 +94,7 @@ public:
     void SetnumberProgrammersInTeam(int);
 
 private:
-    Parameters parameters_;
+    Params parameters_;
     //Минимальное число операндов
     int minNumberOperands_;
     //Количество модулей программы
@@ -62,16 +104,16 @@ private:
     //Число программистов в команде
     int numberProgrammersInTeam_;
     //оптимальное число переменных для одного модуля
-    const int optimalNumberOfVariables_;
+    const int optimalNumberOfVariables_ {8};
     //коэффициент перерасчёта, для перевода в количество команд ассемблера
-    const double coeffAssembler_;
+    const double coeffAssembler_{3.00 / optimalNumberOfVariables_};
     //число элементарных различений
-    const int numberElementaryDifferences_;
+    const int numberElementaryDifferences_{3000};
     //рабочих часов в день
-    const int workingHours_;
+    const int workingHours_{7};
     //оптимальная длина одного модуля
     double lengthModule_;
     //длина словаря
     double lenghtDictionary_;
-
 };
+}
