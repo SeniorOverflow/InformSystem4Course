@@ -28,10 +28,10 @@ void MainWindow::getDataFormLab2()
 
 void MainWindow::drawResultFromLab2()
 {
-     ui->label_coefficientB->setText(QString::number(lab2_ResultData_.coefficientB, 'f', 4));
-     ui->label_coefficientK->setText(QString::number(lab2_ResultData_.coefficientK, 'f', 4) );
-     ui->label_timeToEndTesting->setText(QString::number(lab2_ResultData_.timeToEndTesting,'f', 4));
-     ui->label_midValueTime->setText(QString::number(lab2_ResultData_.midValueTime,'f', 4 ));
+     ui->label_coefficientB->setText(QString::number(lab2_ResultData_.coefficientB, 'f', 6));
+     ui->label_coefficientK->setText(QString::number(lab2_ResultData_.coefficientK, 'f', 10) );
+     ui->label_timeToEndTesting->setText(QString::number(lab2_ResultData_.timeToEndTesting,'f', 6));
+     ui->label_midValueTime->setText(QString::number(lab2_ResultData_.midValueTime,'f', 6 ));
 }
 
 void MainWindow::calculateLab3()
@@ -100,21 +100,21 @@ void MainWindow::drawResultFromLab3()
 
     ui->label_programLevel->setText(toQString(lab3_ResultData_.programLevel));
 
-    ui->label_lengthProgram->setText(QString::number(lab3_ResultData_.lengthProgram));
-    ui->label_voulmeProgram->setText(QString::number(lab3_ResultData_.voulmeProgram));
+    ui->label_lengthProgram->setText(QString::number(lab3_ResultData_.lengthProgram, 'f', 6));
+    ui->label_voulmeProgram->setText(QString::number(lab3_ResultData_.voulmeProgram, 'f', 6));
 
-    ui->label_countAssemblerCommand->setText(QString::number(lab3_ResultData_.countAssemblerCommand));
-    ui->label_calendarTimeProgramming->setText(QString::number(lab3_ResultData_.calendarTimeProgramming));
-    ui->label_countPotencialErrors_task2->setText(QString::number(lab3_ResultData_.countPotencialErrors_task2));
-    ui->label_startStabilityProgram->setText(QString::number(lab3_ResultData_.startStabilityProgram));
+    ui->label_countAssemblerCommand->setText(QString::number(lab3_ResultData_.countAssemblerCommand, 'f', 6));
+    ui->label_calendarTimeProgramming->setText(QString::number(lab3_ResultData_.calendarTimeProgramming, 'f', 6));
+    ui->label_countPotencialErrors_task2->setText(QString::number(lab3_ResultData_.countPotencialErrors_task2, 'f', 6));
+    ui->label_startStabilityProgram->setText(QString::number(lab3_ResultData_.startStabilityProgram, 'f', 6));
 
-    ui->label_currentRaitingProgrammer->setText( "R1:\t" + QString::number(lab3_ResultData_.currentRaitingProgrammer[0]) +"\t"+
-            "R2:\t" + QString::number(lab3_ResultData_.currentRaitingProgrammer[1]) +"\t"+
-            "R3:\t" + QString::number(lab3_ResultData_.currentRaitingProgrammer[2]));
+    ui->label_currentRaitingProgrammer->setText( "R1:\t" + QString::number(lab3_ResultData_.currentRaitingProgrammer[0], 'f', 6) +"\t"+
+            "R2:\t" + QString::number(lab3_ResultData_.currentRaitingProgrammer[1], 'f', 6) +"\t"+
+            "R3:\t" + QString::number(lab3_ResultData_.currentRaitingProgrammer[2], 'f', 6));
 
-    ui->label_countPotencialErrors->setText( "PE1:\t" + QString::number(lab3_ResultData_.countPotencialErrors[0]) +"\t"+
-            "PE2:\t" + QString::number(lab3_ResultData_.countPotencialErrors[1]) +"\t"+
-            "PE3:\t" + QString::number(lab3_ResultData_.countPotencialErrors[2]));
+    ui->label_countPotencialErrors->setText( "PE1:\t" + QString::number(lab3_ResultData_.countPotencialErrors[0], 'f', 6) +"\t"+
+            "PE2:\t" + QString::number(lab3_ResultData_.countPotencialErrors[1], 'f', 6) +"\t"+
+            "PE3:\t" + QString::number(lab3_ResultData_.countPotencialErrors[2], 'f', 6));
 }
 
 void MainWindow::calculateLab5()
@@ -129,12 +129,62 @@ void MainWindow::calculateLab5()
 
 void MainWindow::getDataFromLab5()
 {
+    lab5_Params_.countFailures = ui->spinBox_countFailures->value();
+    lab5_Params_.countExperiments  = ui->spinBox_countExperiments->value() ;
+    lab5_Params_.midWakeUpTimeInterval[0]  = ui->doubleSpinBox_midWakeUpTimeInterval_1->value();
+    lab5_Params_.midWakeUpTimeInterval[1]  = ui->doubleSpinBox_midWakeUpTimeInterval_2->value();
+    lab5_Params_.permissWakeUpTime = ui->doubleSpinBox_permissWakeUpTime->value();
+    lab5_Params_.transformTimeInterval[0]  = ui->doubleSpinBox_transformTimeInterval_1->value();
+    lab5_Params_.transformTimeInterval[1]  = ui->doubleSpinBox_transformTimeInterval_2->value();
 
+    lab5_Params_.permissTransformTime  = ui->spinBox_permissTransformTime->value();
+    lab5_Params_.baseCriterionSafe   = ui->doubleSpinBox_baseCriterionSafe->value();
 }
 
 void MainWindow::drawResultFromLab5()
 {
 
+        auto drawVectorDouble = [&](QLabel * label, const std::vector<double> & estimates)
+        {
+           QString resultString;
+           for(int i = 0; i < estimates.size(); ++i)
+           {
+               resultString += "E"+QString::number(i)+":\t"+ QString::number(estimates[i]) + "\t";
+               if(i % 5 == 0 )
+                   resultString +="\n";
+           }
+           label->setText(resultString);
+        };
+
+        //lab5_ResultData_
+        drawVectorDouble(ui->label_estimateValues_1, lab5_ResultData_.estimateValues[0]);
+        drawVectorDouble(ui->label_estimateValues_2, lab5_ResultData_.estimateValues[1]);
+        drawVectorDouble(ui->label_estimateValues_3, lab5_ResultData_.estimateValues[2]);
+        drawVectorDouble(ui->label_estimateValues_4, lab5_ResultData_.estimateValues[3]);
+        drawVectorDouble(ui->label_estimateValues_5, lab5_ResultData_.estimateValues[4]);
+
+
+        QString metricsStr = "M1:\t" + QString::number(lab5_ResultData_.metrics[0]) + "\t" +
+                "M1:\t" + QString::number(lab5_ResultData_.metrics[1]) + "\t" +
+                "M1:\t" + QString::number(lab5_ResultData_.metrics[2]) + "\t" +
+                "M1:\t" + QString::number(lab5_ResultData_.metrics[3]) + "\t" +
+                "M1:\t" + QString::number(lab5_ResultData_.metrics[4]) + "\t" ;
+
+        ui->label_metrics->setText(metricsStr);
+
+        QString aboluteStr =  "A1:\t" + QString::number(lab5_ResultData_.absoluteCriterions[0]) + "\t" +
+                "A1:\t" + QString::number(lab5_ResultData_.absoluteCriterions[1]) + "\t";
+
+        ui->label_absoluteCriterions->setText(aboluteStr);
+
+
+        QString relativeStr =  "R1:\t" + QString::number(lab5_ResultData_.relativeCriterions[0]) + "\t" +
+                "R1:\t" + QString::number(lab5_ResultData_.relativeCriterions[1]) + "\t";
+
+        ui->label_relativeCriterions->setText(relativeStr);
+
+        ui->label_phactorStability->setText(QString::number(lab5_ResultData_.phactorStability, 'f', 6));
+     //   double phactorStability = {0};
 }
 
 MainWindow::MainWindow(QWidget *parent)
@@ -152,7 +202,7 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_pushButton_calculateLab5_clicked()
 {
-
+    calculateLab5();
 }
 
 void MainWindow::on_pushButton_calculateLab3_clicked()

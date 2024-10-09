@@ -1,7 +1,7 @@
 #pragma once
 #include <vector>
 #include <array>
-
+#include <random>
 
 namespace lab5_core {
 

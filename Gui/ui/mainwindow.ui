@@ -18,7 +18,7 @@
     <item row="0" column="0">
      <widget class="QTabWidget" name="tabWidget">
       <property name="currentIndex">
-       <number>1</number>
+       <number>2</number>
       </property>
       <widget class="QWidget" name="tab_2">
        <attribute name="title">
@@ -316,6 +316,9 @@
               <bold>true</bold>
              </font>
             </property>
+            <property name="maximum">
+             <number>999999</number>
+            </property>
            </widget>
           </item>
           <item row="6" column="0">
@@ -383,6 +386,9 @@
               <bold>true</bold>
              </font>
             </property>
+            <property name="maximum">
+             <number>999999</number>
+            </property>
            </widget>
           </item>
           <item row="8" column="1">
@@ -439,6 +445,9 @@
               <bold>true</bold>
              </font>
             </property>
+            <property name="maximum">
+             <number>999999</number>
+            </property>
            </widget>
           </item>
           <item row="9" column="0">
@@ -485,6 +494,9 @@
               <weight>75</weight>
               <bold>true</bold>
              </font>
+            </property>
+            <property name="maximum">
+             <number>999999</number>
             </property>
            </widget>
           </item>
@@ -592,6 +604,9 @@
               <bold>true</bold>
              </font>
             </property>
+            <property name="maximum">
+             <number>999999</number>
+            </property>
            </widget>
           </item>
           <item row="6" column="1">
@@ -603,6 +618,9 @@
               <bold>true</bold>
              </font>
             </property>
+            <property name="maximum">
+             <double>999.990000000000009</double>
+            </property>
            </widget>
           </item>
           <item row="7" column="1">
@@ -613,6 +631,9 @@
               <weight>75</weight>
               <bold>true</bold>
              </font>
+            </property>
+            <property name="maximum">
+             <number>999999</number>
             </property>
            </widget>
           </item>
@@ -657,6 +678,9 @@
               <weight>75</weight>
               <bold>true</bold>
              </font>
+            </property>
+            <property name="maximum">
+             <number>999999</number>
             </property>
            </widget>
           </item>
@@ -1111,6 +1135,9 @@
               <bold>true</bold>
              </font>
             </property>
+            <property name="maximum">
+             <double>9999999.990000000223517</double>
+            </property>
            </widget>
           </item>
           <item row="0" column="3" rowspan="7">
@@ -1141,6 +1168,9 @@
               <bold>true</bold>
              </font>
             </property>
+            <property name="maximum">
+             <number>999999</number>
+            </property>
            </widget>
           </item>
           <item row="2" column="6">
@@ -1164,6 +1194,9 @@
               <weight>75</weight>
               <bold>true</bold>
              </font>
+            </property>
+            <property name="maximum">
+             <number>999999</number>
             </property>
            </widget>
           </item>
@@ -1215,6 +1248,9 @@
               <bold>true</bold>
              </font>
             </property>
+            <property name="maximum">
+             <double>9999999.990000000223517</double>
+            </property>
            </widget>
           </item>
           <item row="4" column="2">
@@ -1226,6 +1262,9 @@
               <bold>true</bold>
              </font>
             </property>
+            <property name="maximum">
+             <double>9999999.990000000223517</double>
+            </property>
            </widget>
           </item>
           <item row="1" column="1" colspan="2">
@@ -1236,6 +1275,9 @@
               <weight>75</weight>
               <bold>true</bold>
              </font>
+            </property>
+            <property name="maximum">
+             <number>999999</number>
             </property>
            </widget>
           </item>
@@ -1539,6 +1581,9 @@
               <bold>true</bold>
              </font>
             </property>
+            <property name="maximum">
+             <double>9999999.990000000223517</double>
+            </property>
            </widget>
           </item>
           <item row="2" column="2">
@@ -1549,6 +1594,9 @@
               <weight>75</weight>
               <bold>true</bold>
              </font>
+            </property>
+            <property name="maximum">
+             <double>9999999.990000000223517</double>
             </property>
            </widget>
           </item>
