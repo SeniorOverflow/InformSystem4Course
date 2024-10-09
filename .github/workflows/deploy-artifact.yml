@@ -85,7 +85,7 @@ jobs:
     - name: Install Qt (Windows)
       uses: jurplel/install-qt-action@v2
       with:
-        version: '5.12.11'
+        version: '5.15.11'
         host: 'windows'
         target: 'desktop'
         arch: 'win64_mingw73'
