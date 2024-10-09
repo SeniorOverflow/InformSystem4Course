@@ -40,17 +40,17 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
-    - name: Checkout submodules
-      id: git
-      shell: cmake -P {0}
-      run: |
-        if (${{github.ref}} MATCHES "tags/v(.*)")
-            file(APPEND "$ENV{GITHUB_OUTPUT}" "tag=${CMAKE_MATCH_1}\n")
-        else()
-            file(APPEND "$ENV{GITHUB_OUTPUT}" "tag=${{github.run_id}}\n")
-        endif()
+    # - name: Checkout submodules
+    #   id: git
+    #   shell: cmake -P {0}
+    #   run: |
+    #     if (${{github.ref}} MATCHES "tags/v(.*)")
+    #         file(APPEND "$ENV{GITHUB_OUTPUT}" "tag=${CMAKE_MATCH_1}\n")
+    #     else()
+    #         file(APPEND "$ENV{GITHUB_OUTPUT}" "tag=${{github.run_id}}\n")
+    #     endif()
 
-    - name: Download CMake
+    # - name: Download CMake
       shell: cmake -P {0}
       run: |
         set(cmake_version $ENV{CMAKE_VERSION})
